@@ -1,13 +1,45 @@
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.7
 version = '1.0'
+
+def spring_version          = "4.0.5.RELEASE"
+def hibernate_version       = "4.3.5.Final"
+def spring_data_jpa_version = "1.5.2.RELEASE"
+def slf4j_version           = "1.7.7"
+def log4j_version           = "1.2.16"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+
+    //Spring Framework
+    compile "org.springframework:spring-context:${spring_version}"
+    compile "org.springframework:spring-jdbc:${spring_version}"
+    compile "org.springframework:spring-expression:${spring_version}"
+    compile "org.springframework:spring-orm:${spring_version}"
+    compile "org.springframework:spring-tx:${spring_version}"
+    compile "org.springframework:spring-web:${spring_version}"
+    compile "org.springframework:spring-webmvc:${spring_version}"
+
+    //Spring Data
+    compile "org.springframework.data:spring-data-jpa:${spring_data_jpa_version}"
+
+    //Hibernate
+    compile "org.hibernate:hibernate-core:${hibernate_version}"
+    compile "org.hibernate:hibernate-entitymanager:${hibernate_version}"
+
+    //slf4J
+    compile "org.slf4j:slf4j-api:${slf4j_version}"
+    compile "org.slf4j:slf4j-log4j12:${slf4j_version}"
+
+    //Log4J
+    compile "log4j:log4j:${log4j_version}"
+
+
+
 
 
 
