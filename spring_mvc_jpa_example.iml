@@ -45,6 +45,11 @@
     <orderEntry type="library" exported="" name="Gradle: slf4j-api-1.7.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: slf4j-log4j12-1.7.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: log4j-1.2.17" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jstl-1.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: hibernate-validator-4.2.0.Final" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: mysql-connector-java-5.1.6" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: javax.servlet-api-3.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: validation-api-1.0.0.GA" level="project" />
   </component>
 </module>
 

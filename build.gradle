@@ -1,6 +1,14 @@
 apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'cargo'
+apply plugin: 'cargo-base'
+apply plugin: 'flyway'
 
-sourceCompatibility = 1.7
+
+ext {
+    sourceCompatibility = 1.7
+}
 version = '1.0'
 
 def spring_version          = "4.0.5.RELEASE"
@@ -9,39 +17,106 @@ def spring_data_jpa_version = "1.5.2.RELEASE"
 def slf4j_version           = "1.7.7"
 def log4j_version           = "1.2.16"
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.5'
+        classpath 'org.flywaydb:flyway-gradle-plugin:3.0'
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
 
+    //Servlet API
+    providedCompile "javax.servlet:javax.servlet-api:3.0.1"
+    compile "javax.servlet:jstl:1.2"
+
     //Spring Framework
-    compile "org.springframework:spring-context:${spring_version}"
-    compile "org.springframework:spring-jdbc:${spring_version}"
-    compile "org.springframework:spring-expression:${spring_version}"
-    compile "org.springframework:spring-orm:${spring_version}"
-    compile "org.springframework:spring-tx:${spring_version}"
-    compile "org.springframework:spring-web:${spring_version}"
-    compile "org.springframework:spring-webmvc:${spring_version}"
+    compile(
+       "org.springframework:spring-context:${spring_version}"
+      ,"org.springframework:spring-jdbc:${spring_version}"
+      ,"org.springframework:spring-expression:${spring_version}"
+      ,"org.springframework:spring-orm:${spring_version}"
+      ,"org.springframework:spring-tx:${spring_version}"
+      ,"org.springframework:spring-web:${spring_version}"
+      ,"org.springframework:spring-webmvc:${spring_version}"
+    )
 
     //Spring Data
     compile "org.springframework.data:spring-data-jpa:${spring_data_jpa_version}"
 
     //Hibernate
-    compile "org.hibernate:hibernate-core:${hibernate_version}"
-    compile "org.hibernate:hibernate-entitymanager:${hibernate_version}"
+    compile(
+       "org.hibernate:hibernate-core:${hibernate_version}"
+      ,"org.hibernate:hibernate-entitymanager:${hibernate_version}"
+      ,"org.hibernate:hibernate-validator:4.2.0.Final"
+    )
 
     //slf4J
-    compile "org.slf4j:slf4j-api:${slf4j_version}"
-    compile "org.slf4j:slf4j-log4j12:${slf4j_version}"
+    compile(
+       "org.slf4j:slf4j-api:${slf4j_version}"
+      ,"org.slf4j:slf4j-log4j12:${slf4j_version}"
+    )
 
     //Log4J
     compile "log4j:log4j:${log4j_version}"
 
+    //JDBC Driver
+    compile 'mysql:mysql-connector-java:5.1.6'
 
-
-
-
-
+    //Test
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+cargo {
+    containerId = 'tomcat7x'
+    port = 18080
+
+    deployable {
+        context = 'spring_mvc_jpa_example'
+    }
+
+    remote {
+        hostname = 'localhost'
+        username = 'tomcat'
+        password = 's3cret'
+    }
+}
+
+
+flyway {
+
+    def enviroment = 'development'
+
+    switch(enviroment) {
+        case "development" :
+            url      = 'jdbc:mysql://localhost:3306/mvc_example'
+            user     = 'example'
+            password = 's3cret'
+
+        case "test" :
+            url      = 'jdbc:mysql://localhost:3306/mvc_example'
+            user     = 'example'
+            password = 's3cret'
+
+        case "production" :
+            url      = 'jdbc:mysql://localhost:3306/mvc_example'
+            user     = 'example'
+            password = 's3cret'
+
+        default :
+            //Same development
+            url      = 'jdbc:mysql://localhost:3306/mvc_example'
+            user     = 'example'
+            password = 's3cret'
+    }
+}
+
